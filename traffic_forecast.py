@@ -11,11 +11,6 @@ def make_forecast(df):
     model.fit(df)
     future_dates = model.make_future_dataframe(periods=365)
     prediction = model.predict(future_dates)
-
-
     fig = plot_plotly(model, prediction)
-    fig.update_layout(
-        title='Traffic Forecast for 365 days', yaxis_title='GA Sessions', xaxis_title="Date"
-    )
-
+    fig.update_layout(title='Traffic Forecast for 365 days', yaxis_title='GA Sessions', xaxis_title="Date")
     return fig
