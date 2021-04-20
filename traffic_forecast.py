@@ -11,6 +11,7 @@ import plotly.offline as py
 from plotly.offline import init_notebook_mode
 import streamlit as st
 
+@st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def make_forecast(df, period = 365, ys = True, ws = False, iw = 0.95, cps=0.05, data_type='Daily'):
     model = Prophet(weekly_seasonality=ws,
                     yearly_seasonality=ys,
@@ -105,6 +106,7 @@ def make_forecast(df, period = 365, ys = True, ws = False, iw = 0.95, cps=0.05, 
 
     return fig, fig2, prediction[['ds', 'trend', 'yhat', 'yhat_lower', 'yhat_upper']]
 
+@st.cache(suppress_st_warning=True, allow_output_mutation=True)
 def validate(df, ys = True, ws = False, iw = 0.95, cps=0.05, data_type='Daily'):
     dd = df.copy()
     train = dd.drop(dd.index[int(round(dd.shape[0] * 0.8,0))-dd.shape[0]:])
