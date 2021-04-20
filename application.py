@@ -5,9 +5,7 @@ import base64
 from traffic_forecast import make_forecast, validate
 
 def get_table_download_link_csv(df):
-    #csv = df.to_csv(index=False)
     csv = df.to_csv().encode()
-    #b64 = base64.b64encode(csv.encode()).decode()
     b64 = base64.b64encode(csv).decode()
     href = f'<a href="data:file/csv;base64,{b64}" download="prediction.csv" target="_blank">Download Forecast in .csv</a>'
     return href
@@ -29,7 +27,7 @@ if data_type == 'Monthly':
     settings_column.subheader('Choose prediction horizon:')
     period = settings_column.slider('', 1, 12, 12)
 settings_column.subheader('Pick seasonalities:')
-ys = settings_column.checkbox('Yearly seasonaity',False)
+ys = settings_column.checkbox('Yearly seasonaity',True)
 ws = settings_column.checkbox('Weekly seasonality')
 settings_column.subheader('Set Uncertainty Interval Width:')
 iw = settings_column.slider('The possible range of trend', 0.8, 1.0, 0.95, 0.05)
