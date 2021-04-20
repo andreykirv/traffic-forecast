@@ -29,7 +29,7 @@ if data_type == 'Monthly':
     settings_column.subheader('Choose prediction horizon:')
     period = settings_column.slider('', 1, 12, 12)
 settings_column.subheader('Pick seasonalities:')
-ys = settings_column.checkbox('Yearly seasonaity',False)
+ys = settings_column.checkbox('Yearly seasonaity',True)
 ws = settings_column.checkbox('Weekly seasonality')
 settings_column.subheader('Set Uncertainty Interval Width:')
 iw = settings_column.slider('The possible range of trend', 0.8, 1.0, 0.95, 0.05)
