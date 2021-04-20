@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import base64
-from traffic_forecast import make_forecast
+from traffic_forecast import make_forecast, validate
 
 def get_table_download_link_csv(df):
     #csv = df.to_csv(index=False)
@@ -29,7 +29,7 @@ if data_type == 'Monthly':
     settings_column.subheader('Choose prediction horizon:')
     period = settings_column.slider('', 1, 12, 12)
 settings_column.subheader('Pick seasonalities:')
-ys = settings_column.checkbox('Yearly seasonaity',True)
+ys = settings_column.checkbox('Yearly seasonaity',False)
 ws = settings_column.checkbox('Weekly seasonality')
 settings_column.subheader('Set Uncertainty Interval Width:')
 iw = settings_column.slider('The possible range of trend', 0.8, 1.0, 0.95, 0.05)
@@ -45,5 +45,10 @@ if uploaded_file is not None:
     scatter_column.title('Trends')
     scatter_column.plotly_chart(trend, True)
     settings_column.markdown(get_table_download_link_csv(df), unsafe_allow_html=True)
+    validate_bool = settings_column.button('Validate the Forecast', help='Train the model on 80% of the original dataset and compare the forecast of the remaining 20% ​​with real data.')
+    if validate_bool:
+        chart, mae = validate(data_import, ys, ws, iw, cps, data_type)
+        scatter_column.plotly_chart(chart,True)
+        scatter_column.write(f'Mean Absolute Error is equal to {round(mae,1)}.')
 else:
     scatter_column.header("Please Choose a file")
