@@ -45,8 +45,9 @@ if uploaded_file is not None:
     settings_column.markdown(get_table_download_link_csv(df), unsafe_allow_html=True)
     validate_bool = settings_column.button('Validate the Forecast', help='Train the model on 80% of the original dataset and compare the forecast of the remaining 20% ​​with real data.')
     if validate_bool:
-        chart, mae = validate(data_import, ys, ws, iw, cps, data_type)
+        chart, mae, mape = validate(data_import, ys, ws, iw, cps, data_type)
         scatter_column.plotly_chart(chart,True)
+        scatter_column.write(f'Mean Absolute Percantage Error is equal to {round(mape,1)}.')
         scatter_column.write(f'Mean Absolute Error is equal to {round(mae,1)}.')
 else:
     scatter_column.header("Please Choose a file")
